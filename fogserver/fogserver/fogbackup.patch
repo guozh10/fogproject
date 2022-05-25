@@ -1,0 +1,20 @@
+--- FOGBackup.sh	2018-06-05 20:48:49.000000000 +0200
++++ FOGBackup0.sh	2018-07-16 22:52:34.000000000 +0200
+@@ -4,7 +4,7 @@
+     echo -e "\t-h -? --help\t\t\tDisplay this info"
+     echo -e "\t-B -b --backuppath\t\tSpecify the backup path.\n\t\tIf not set will use backupPath from fog settings plus fog_backup_DATE."
+ }
+-. ../../lib/common/utils.sh
++. /opt/fog/utils.sh
+ optspec="h?B:b:-:"
+ while getopts "$optspec" o; do
+     case $o in
+@@ -69,7 +69,7 @@
+ [[ ! -d $backupDir/images || $backupDir/mysql || $backupDir/snapins || $backupDir/reports || $backupDir/logs ]] && mkdir -p $backupDir/{images,mysql,snapins,reports,logs} >/dev/null 2>&1
+ backupDB() {
+     dots "Backing up database"
+-    wget --no-check-certificate --post-data="nojson=1" -O $backupDir/mysql/fog.sql "http://$ipaddress/$webroot/management/export.php?type=sql" 2>>$backupDir/logs/error.log 1>>$backupDir/logs/progress.log 2>&1
++    mysqldump -h localhost -u root fog > $backupDir/mysql/fog.sql
+     stat=$?
+     if [[ ! $stat -eq 0 ]]; then
+         echo "Failed"

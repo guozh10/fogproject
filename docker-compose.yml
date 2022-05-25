@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  fogserver:
+    container_name: fogserver
+    hostname: fogserver.local
+    image: guozh10/fogserver
+    volumes:
+      - ./images:/images
+      - ./backup:/backup
+      - ./entry.sh:/entry.sh
+    ports:
+      - 80:80
+      - 69:69/udp
+      - 2049:2049/udp
+    environment:
+      IP: "192.168.101.2"
+    privileged: true
+    restart: always
+    networks:
+      front:
+        ipv4_address: 192.168.101.2
+  dhcp:
+    image: guozh10/dhcpd
+    init: true
+    network_mode: host
+    container_name: dhcpd 
+    command: eth0
+    volumes:
+      - ./dhcp:/data
+    restart: always
+networks:
+  front:
+    ipam:
+      config:
+        - subnet: 192.168.101.0/24
+    driver_opts:
+      "com.docker.network.bridge.name": eth0
+

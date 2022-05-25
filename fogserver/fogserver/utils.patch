@@ -1,0 +1,4 @@
+2c2
+< . ../../lib/common/functions.sh
+---
+> . /opt/fog/functions.sh

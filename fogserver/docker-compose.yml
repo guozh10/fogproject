@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  fogserver:
+    image: unclesamwk/fogserver
+    build:
+      context: ./fogserver
+    container_name: fogserver
+    environment:
+      IP: 192.168.178.21 # IP from Host
+    hostname: fogserver.local
+    ports:
+    - 80:80/tcp
+    - 69:69/tcp
+    - 2049:2049/tcp
+    privileged: true
+    restart: always
+    volumes:
+    - "fog_images:/images"
+    - "fog_backup:/backup"
+    - "fog_mysql:/var/lib/mysql"
+
+  dnsmasq-proxy:
+    image: unclesamwk/dnsmasq-proxy
+    build:
+      context: ./dnsmasq-proxy
+    network_mode: host
+    environment:
+      - TFTP_SERVER_IP=192.168.178.21 # IP from Host
+      - SUBNET=192.168.178.0 # Subnet from network
+    ports:
+      - "67:67/tcp"
+      - "67:67/udp"
+    cap_add:
+      - NET_ADMIN
+
+volumes:
+  fog_mysql:
+  fog_backup:
+  fog_images:

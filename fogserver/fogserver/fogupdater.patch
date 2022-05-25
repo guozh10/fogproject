@@ -1,0 +1,12 @@
+2c2
+< . ../../lib/common/utils.sh
+---
+> . /opt/fog/utils.sh
+14c14
+<     latest=$(echo $latest | $(pwd)/jq32 .stable)
+---
+>     latest=$(echo $latest | jq .stable)
+17c17
+<     latest=$(echo $latest | $(pwd)/jq32 .dev)
+---
+>     latest=$(echo $latest | jq .dev)
