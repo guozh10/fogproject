@@ -4,11 +4,9 @@ services:
   fogserver:
     container_name: fogserver
     hostname: fogserver.local
-    image: guozh10/fogserver
+    image: guozh10/fogserver:5.10.8-kernel
     volumes:
       - ./images:/images
-      - ./backup:/backup
-      - ./entry.sh:/entry.sh
     ports:
       - 80:80
       - 69:69/udp
@@ -25,7 +23,7 @@ services:
     init: true
     network_mode: host
     container_name: dhcpd 
-    command: eth0
+    command: br0
     volumes:
       - ./dhcp:/data
     restart: always
@@ -35,5 +33,5 @@ networks:
       config:
         - subnet: 192.168.101.0/24
     driver_opts:
-      "com.docker.network.bridge.name": eth0
+      "com.docker.network.bridge.name": br0
 

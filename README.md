@@ -39,4 +39,7 @@ docker-compose up -d
 docker-compose logs -f 
 
 
+#更新内核版本请参考fog 官方文档
+
+https://docs.fogproject.org/en/latest/reference/compile_fos_kernel.html
 
