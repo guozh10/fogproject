@@ -4,7 +4,7 @@ services:
   fogserver:
     container_name: fogserver
     hostname: fogserver.local
-    image: guozh10/fogserver:5.10.8-kernel
+    image: guozh10/fogserver:latest
     volumes:
       - ./images:/images
     ports:
