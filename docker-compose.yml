@@ -23,7 +23,7 @@ services:
     init: true
     network_mode: host
     container_name: dhcpd 
-    command: br0
+    command: fog-net
     volumes:
       - ./dhcp:/data
     restart: always
@@ -33,5 +33,5 @@ networks:
       config:
         - subnet: 192.168.101.0/24
     driver_opts:
-      "com.docker.network.bridge.name": br0
+      "com.docker.network.bridge.name": fog-net
 

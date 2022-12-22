@@ -12,14 +12,22 @@ chmod +x /usr/local/bin/docker-compose
 
 yum install bridge-utils
 
-brctl addbr br0
+brctl addbr fog-net
 
-brctl addif br0 eth0
+brctl addif fog-net  eth0
+
+#网桥配置在接口上
+cat /etc/sysconfig/network-scripts/ifcfg-eth0
+....
+BRIDGE=fog-net
 
 #载入NFS 模块
 
 modprobe nfs
 modprobe nfsd
+
+#开机自动加载模块
+cp -a modules/nfs.modules /etc/sysconfig/modules/
 
 #获取网卡名为dhcp 提供ip
 
@@ -37,6 +45,9 @@ docker-compose up -d
 
 #查看日志
 docker-compose logs -f 
+
+#访问前端
+http://ip/fog   fog/password
 
 
 #更新内核版本请参考fog 官方文档
